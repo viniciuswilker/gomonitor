@@ -69,11 +69,6 @@ func DeletarServico(c *gin.Context) {
 		return
 	}
 
-	if id == 4 {
-		c.JSON(http.StatusForbidden, gin.H{"erro": "Proibido deletar esse serviço"})
-		return
-	}
-
 	servicoDeletado, err := monitor.DeletarUnico(uint(id))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"erro": "Serviço não encontrado"})

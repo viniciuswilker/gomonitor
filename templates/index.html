@@ -404,6 +404,24 @@
             display: none;
         }
 
+        .portifolio-link {
+            text-align: center;
+            font-size: 15px;
+            color: gray;
+            transition: transform 200ms ease-in;
+            width: 100%;
+        }
+
+        .portifolio-link p {
+            margin-bottom: 30px;
+            color: gray;
+            transition: transform 200ms ease-in;
+        }
+
+        .portifolio-link p:hover {
+            color: blue;
+        }
+
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -611,6 +629,12 @@
                     </div>
                 </div>
             </div>
+
+            <a href="https://vwdeveloper.netlify.app/" class="portifolio-link" target="_blank">
+                <p>Desenvolvido por Vinicius Wilker</p>
+            </a>
+
+
         </main>
     </div>
 
@@ -668,7 +692,7 @@
     </div>
 
     <script>
-        const API_URL = "/api"; // Caminho relativo
+        const API_URL = "/api";
 
         document.addEventListener("DOMContentLoaded", () => {
             listarServicos();
