@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>GoMonitor - Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #f9f506;
+            --bg-light: #f8f8f5;
+            --bg-dark: #23220f;
+            --text-main: #181811;
+            --text-secondary: #8c8b5f;
+            --white: #ffffff;
+            --border: rgba(0, 0, 0, 0.05);
+
+            --emerald-bg: #d1fae5;
+            --emerald-text: #065f46;
+            --emerald-dot: #10b981;
+
+            --rose-bg: #ffe4e6;
+            --rose-text: #9f1239;
+            --rose-dot: #f43f5e;
+
+            --blue-bg: #eff6ff;
+            --blue-icon: #2563eb;
+
+            /* Configurações Globais */
+            --font-main: 'Spline Sans', sans-serif;
+            --radius-default: 1rem;
+            --radius-btn: 9999px;
+            --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-btn: 0 10px 15px -3px rgba(249, 245, 6, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a,
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            width: 100%;
+            border-bottom: 1px solid var(--border);
+            background-color: rgba(248, 248, 245, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 0.75rem 1rem;
+        }
+
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-box {
+            display: flex;
+            width: 2rem;
+            height: 2rem;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            border-radius: 0.5rem;
+            color: #000;
+        }
+
+        .logo-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .divider {
+            height: 2rem;
+            width: 1px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .avatar {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            background-color: #ddd;
+            background-image: url("https://ui-avatars.com/api/?name=Admin&background=random");
+            background-size: cover;
+            border: 2px solid var(--white);
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .page-header {
+                flex-direction: row;
+                align-items: flex-end;
+                justify-content: space-between;
+            }
+        }
+
+        .page-header h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--primary);
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-btn);
+            font-size: 0.875rem;
+            font-weight: 700;
+            box-shadow: var(--shadow-btn);
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .card {
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: var(--radius-default);
+            box-shadow: var(--shadow-card);
+        }
+
+        .card-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .card-value {
+            margin-top: 0.5rem;
+            font-size: 1.875rem;
+            font-weight: 700;
+        }
+
+
+        .table-wrapper {
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-default);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        .icon-btn {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+        }
+
+        .table-scroll {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 800px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead {
+            background-color: var(--bg-light);
+        }
+
+        th {
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(248, 248, 245, 0.5);
+        }
+
+        td {
+            padding: 1rem 1.5rem;
+            font-size: 0.875rem;
+            color: var(--text-main);
+        }
+
+        .service-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .service-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: var(--blue-bg);
+            color: var(--blue-icon);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-name {
+            font-weight: 700;
+        }
+
+        .service-url {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-btn);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .dot {
+            width: 0.375rem;
+            height: 0.375rem;
+            border-radius: 50%;
+        }
+
+        .badge.up {
+            background-color: var(--emerald-bg);
+            color: var(--emerald-text);
+        }
+
+        .badge.up .dot {
+            background-color: var(--emerald-dot);
+        }
+
+        .badge.down {
+            background-color: var(--rose-bg);
+            color: var(--rose-text);
+        }
+
+        .badge.down .dot {
+            background-color: var(--rose-dot);
+        }
+
+        .badge.pending {
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+
+        .badge.pending .dot {
+            background-color: #9ca3af;
+        }
+
+        .link-servico {
+            text-decoration: none;
+        }
+
+        .btn-check {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--radius-btn);
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-check:hover {
+            background-color: #f9fafb;
+        }
+
+        .btn-check:active {
+            transform: scale(0.95);
+        }
+
+
+        #modal-toggle {
+            display: none;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-box {
+            background-color: var(--white);
+            width: 100%;
+            max-width: 32rem;
+            border-radius: var(--radius-default);
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        #modal-toggle:checked~.modal-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #modal-toggle:checked~.modal-overlay .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .modal-header p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .label-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+        }
+
+        .input-field {
+            width: 100%;
+            height: 3rem;
+            padding-left: 2.75rem;
+            padding-right: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: var(--bg-light);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+            outline: 2px solid rgba(249, 245, 6, 0.2);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-cancel {
+            padding: 0.625rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            border-radius: var(--radius-btn);
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <header>
+            <div class="header-content">
+                <div class="logo-area">
+                    <div class="logo-box">
+                        <span class="material-symbols-outlined">monitoring</span>
+                    </div>
+                    <h1 class="logo-title">GoMonitor</h1>
+                </div>
+                <div class="user-actions">
+                    <div class="divider"></div>
+                    <div class="avatar"></div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="container">
+
+                <div class="page-header">
+                    <div>
+                        <h2>Dashboard</h2>
+                        <p>Confira o status dos seus serviços em tempo real</p>
+                    </div>
+                    <label for="modal-toggle" class="btn-primary">
+                        <span class="material-symbols-outlined">add</span>
+                        <span>Cadastrar Serviço</span>
+                    </label>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="card">
+                        <div class="card-label">
+                            <span class="material-symbols-outlined">dns</span>
+                            <span>Total Monitorado</span>
+                        </div>
+                        <p class="card-value" id="card-total">0</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-label" style="color: var(--emerald-text);">
+                            <span class="material-symbols-outlined">check_circle</span>
+                            <span>Serviços Online</span>
+                        </div>
+                        <p class="card-value" id="card-online">0</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-label" style="color: var(--rose-text);">
+                            <span class="material-symbols-outlined">error</span>
+                            <span>Serviços Offline</span>
+                        </div>
+                        <p class="card-value" id="card-offline">0</p>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <div class="table-header">
+                        <h3>Status dos Serviços</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="icon-btn" onclick="listarServicos()">
+                                <span class="material-symbols-outlined">refresh</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Serviço / URL</th>
+                                    <th>Status</th>
+                                    <th>Última Checagem</th>
+                                    <th>Intervalo</th>
+                                    <th style="text-align: right;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-servicos">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 2rem;">Carregando serviços...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <input type="checkbox" id="modal-toggle">
+
+    <div class="modal-overlay">
+        <label for="modal-toggle" style="position: absolute; inset: 0; cursor: default;"></label>
+
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <h3>Cadastrar Novo Serviço</h3>
+                    <p>Preencha os dados abaixo para iniciar o monitoramento.</p>
+                </div>
+                <label for="modal-toggle" class="icon-btn" style="cursor: pointer;">
+                    <span class="material-symbols-outlined">close</span>
+                </label>
+            </div>
+
+            <form id="form-criar-servico">
+                <div class="form-group">
+                    <span class="label-text">Nome do Serviço</span>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-outlined input-icon">label</span>
+                        <input id="input-nome" class="input-field" type="text" placeholder="Ex: API de Pagamentos"
+                            required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="label-text">URL do Endpoint</span>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-outlined input-icon">link</span>
+                        <input id="input-url" class="input-field" type="url"
+                            placeholder="https://api.exemplo.com/health" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <span class="label-text">Intervalo de Checagem (segundos)</span>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-outlined input-icon">timer</span>
+                        <input id="input-intervalo" class="input-field" type="number" min="5" value="30" required />
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <label for="modal-toggle" class="btn-cancel">Cancelar</label>
+                    <button type="submit" class="btn-primary" style="justify-content: center;">
+                        Salvar Serviço
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "/api"; // Caminho relativo
+
+        document.addEventListener("DOMContentLoaded", () => {
+            listarServicos();
+
+            setInterval(listarServicos, 5000);
+
+            const form = document.getElementById("form-criar-servico");
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                await criarServico();
+            });
+        });
+
+        async function listarServicos() {
+            const tbody = document.getElementById("lista-servicos");
+
+            try {
+                const res = await fetch(`${API_URL}/servicos`);
+                const servicos = await res.json();
+
+                if (servicos.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: #888;">Nenhum serviço cadastrado.</td></tr>`;
+                    atualizarCards([]);
+                    return;
+                }
+
+                tbody.innerHTML = "";
+
+                servicos.forEach(servico => {
+                    const row = document.createElement("tr");
+
+                    let badgeClass = "pending";
+                    if (servico.status === "UP" || servico.status === "ONLINE") badgeClass = "up";
+                    if (servico.status === "DOWN" || servico.status === "OFFLINE") badgeClass = "down";
+
+                    const dataFormatada = servico.ultima_checagem.startsWith("0001")
+                        ? "-"
+                        : new Date(servico.ultima_checagem).toLocaleString('pt-BR');
+
+                    row.innerHTML = `
+                        <td>
+                            <div class="service-info">
+                                <div class="service-icon">
+                                    <span class="material-symbols-outlined" style="font-size: 1.25rem;">api</span>
+                                </div>
+                                <div>
+                                    <p class="service-name">${servico.nome}</p>
+                                    <a href="${servico.url}" class="link-servico" target="blank">
+                                        <p class="service-url">${servico.url}</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge ${badgeClass}">
+                                <span class="dot"></span> ${servico.status}
+                            </span>
+                        </td>
+                        <td>${dataFormatada}</td>
+                        <td style="color: var(--text-secondary);">${servico.intervalo}s</td>
+                        <td style="text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
+                            <button class="btn-check" onclick="checarServico(${servico.id}, this)">
+                                <span class="material-symbols-outlined" style="font-size: 1rem;">sync</span>
+                                Checar
+                            </button>
+
+                            <button class="btn-check" style="color: #ef4444; border-color: #ef4444;" onclick="deletarServico(${servico.id})">
+                                <span class="material-symbols-outlined" style="font-size: 1rem;">delete</span>
+                            </button>
+
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                atualizarCards(servicos);
+
+            } catch (erro) {
+                console.error("Erro polling:", erro);
+            }
+        }
+
+        async function criarServico() {
+            const nome = document.getElementById("input-nome").value;
+            const url = document.getElementById("input-url").value;
+            const intervalo = document.getElementById("input-intervalo").value;
+            const btnSalvar = document.querySelector("#form-criar-servico button[type='submit']");
+
+            const payload = {
+                nome: nome,
+                url: url,
+                intervalo: parseInt(intervalo)
+            };
+
+            try {
+                btnSalvar.innerText = "Salvando...";
+                btnSalvar.disabled = true;
+
+                const res = await fetch(`${API_URL}/servicos`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    document.getElementById("form-criar-servico").reset();
+                    document.getElementById("modal-toggle").checked = false;
+                    listarServicos();
+                } else {
+                    alert("Erro ao salvar serviço.");
+                }
+
+            } catch (erro) {
+                console.error(erro);
+            } finally {
+                btnSalvar.innerText = "Salvar Serviço";
+                btnSalvar.disabled = false;
+            }
+        }
+
+        async function checarServico(id, btnElement) {
+            const originalText = btnElement.innerHTML;
+            btnElement.innerHTML = `<span class="material-symbols-outlined" style="font-size: 1rem; animation: spin 1s linear infinite;">sync</span> Checando...`;
+            btnElement.disabled = true;
+
+            try {
+                const res = await fetch(`${API_URL}/servicos/${id}/checar`, {
+                    method: "POST"
+                });
+
+                if (res.ok) {
+                    await listarServicos();
+                } else {
+                    alert("Erro ao checar serviço.");
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+            } finally {
+                if (btnElement) {
+                    btnElement.innerHTML = originalText;
+                    btnElement.disabled = false;
+                }
+            }
+        }
+
+        function atualizarCards(servicos) {
+            const total = servicos.length;
+            const online = servicos.filter(s => s.status === "UP" || s.status === "ONLINE").length;
+            const offline = servicos.filter(s => s.status === "DOWN" || s.status === "OFFLINE").length;
+
+            document.getElementById("card-total").innerText = total;
+            document.getElementById("card-online").innerText = online;
+            document.getElementById("card-offline").innerText = offline;
+        }
+
+
+        async function deletarServico(id) {
+            if (!confirm("Tem certeza que deseja remover este serviço?")) {
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/servicos/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (res.ok) {
+                    listarServicos();
+                } else {
+                    alert("Erro ao deletar serviço.");
+                }
+            } catch (erro) {
+                console.error("Erro:", erro);
+                alert("Erro de conexão.");
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</body>
+
+</html>
